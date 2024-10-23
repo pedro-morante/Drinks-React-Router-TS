@@ -1,5 +1,11 @@
-export async function getCategories() {
-  console.log("desde el universo");
-}
+import axios from "axios";
+import { CategoriesAPIResponseSchema } from "../utils/recipes-schema";
 
-//www.thecocktaildb.com/api/json/v1/1/list.php?c=list
+export async function getCategories() {
+  const url = "www.thecocktaildb.com/api/json/v1/1/list.php?c=list";
+  const { data } = await axios(url);
+  const result = CategoriesAPIResponseSchema.safeParse(data);
+  if (result.success) {
+    return result.data;
+  }
+}
